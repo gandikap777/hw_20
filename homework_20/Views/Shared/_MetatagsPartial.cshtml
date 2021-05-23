@@ -1,0 +1,19 @@
+﻿@using homework_20.Service
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+@if (ViewBag.Tittle != null)
+{
+    <title>@ViewBag.Tittle</title>
+}
+else
+{
+    <title>@Config.CompanyName</title>
+}
+@if (ViewBag.Description != null)
+{
+    <meta name="descriprion" content="@ViewBag.Description" />
+}
+@if (ViewBag.Keywords != null)
+{
+    <meta name="keywords" content="@ViewBag.Keywords" />
+}
