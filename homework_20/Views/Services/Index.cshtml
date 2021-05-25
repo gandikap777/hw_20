@@ -14,7 +14,7 @@
             {
                 <li>
                     <a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="@entity.Id">
-                        <img src="~/images/@entity.ImagePath" alt="" class="left" />
+                        <img src="@("~/images/" + entity.ImagePath ?? "~/images/select-none.png")" alt="" class="left" />
                     </a>
                     <h4>@entity.Tittle</h4>
                     <p>@entity.SubTittle</p>

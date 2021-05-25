@@ -13,12 +13,16 @@ namespace homework_20.Models.Entity
         [Display(Name = "Наименование услуги")]
         public override string Tittle { get; set; }
 
-        [Display(Name = "Описание услуги")] 
+        [Display(Name = "Описание услуги")]
         public override string SubTittle { get; set; }
-        
+
         [Display(Name = "Содержание услуги")]
         public override string Text { get; set; }
 
+        //[Required(ErrorMessage = "Заполните тип услуги")]
+        [Display(Name = "Тип услуги")]
+        public string ServiceType { get; set; }
 
     }
+
 }

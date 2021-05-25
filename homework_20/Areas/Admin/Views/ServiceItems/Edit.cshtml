@@ -21,6 +21,17 @@
                 <span asp-validation-for="Tittle"></span>
             </div>
             <div class="div-box">
+                <label asp-for="ServiceType"></label>
+                <input asp-for="ServiceType" />
+                <select name="Type">
+                    <option value="Уборка">Уборка</option>
+                    <option value="Ремонт">Ремонт</option>
+                    <option value="Работа">Работа</option>
+                    <option value="Отдых">Отдых</option>
+                </select>
+                <span asp-validation-for="ServiceType"></span>
+            </div>
+            <div class="div-box">
                 <label asp-for="SubTittle"></label>
                 <input asp-for="SubTittle" />
                 <span asp-validation-for="SubTittle"></span>
