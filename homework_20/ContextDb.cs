@@ -38,6 +38,32 @@ namespace homework_20.Models
                 SecurityStamp = string.Empty
             });
 
+            //add service
+            builder.Entity<ServiceItem>().HasData(new ServiceItem
+            {
+                Id = new Guid("1926c9bc-4da1-4063-8a61-918e9472a179"),
+                Tittle = "First service",
+                ServiceType = "МонтажныеРаботы",
+                SubTittle = "Оказание монтажных работы по первой услуге"
+
+            });
+            builder.Entity<ServiceItem>().HasData(new ServiceItem
+            {
+                Id = new Guid("a3e33d9a-e481-41f3-ae76-4608870821f8"),
+                Tittle = "Second service",
+                ServiceType = "ДемонтажныеРаботы",
+                SubTittle = "Оказание услуг по демонтажу"
+
+            });
+            builder.Entity<ServiceItem>().HasData(new ServiceItem
+            {
+                Id = new Guid("c9e722a5-5aa6-41e4-a159-b9474c8fd4b1"),
+                Tittle = "Third service",
+                ServiceType = "ПлиточныеРаботы",
+                SubTittle = "Укладка плитки по третьей услге"
+
+            });
+
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
             {
                 RoleId = "1",

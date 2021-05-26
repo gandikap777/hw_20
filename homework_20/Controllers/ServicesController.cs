@@ -1,5 +1,7 @@
 ﻿using homework_20.Models;
+using homework_20.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,8 @@ namespace homework_20.Controllers
 
         public IActionResult Index(Guid id)
         {
+            var serviceTypes = ServiceType.GetServiceTypes();
+            ViewBag.ServiceTypes = serviceTypes;
             if (id != default)
             {
                 return View("Show", dataManager.ServiceItems.GetServiceItemById(id));

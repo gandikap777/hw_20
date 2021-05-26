@@ -54,6 +54,7 @@ namespace homework_20.Migrations
                     Tittle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubTittle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ServiceType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateAdd = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -188,21 +189,31 @@ namespace homework_20.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1", "5d43c90e-f919-4c1e-8def-75ac95c4e7bb", "admin", "Administrator" });
+                values: new object[] { "1", "dcfee2c4-3e1e-4cc7-b254-85d71f5232a5", "admin", "Administrator" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "b36e6c0d-be42-4884-943b-5872fe6a5cae", "my@email.com", true, false, null, "MY@EMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEG7TPdmLrjUDSsiKBfA+Ryn3qLddRAxsTwACniLNEXHasUHqTpkxzfIgQSc/DtObYg==", null, false, "", false, "admin" });
+                values: new object[] { "2", 0, "4b3f58fd-f209-45cb-99be-faa57e24b92f", "my@email.com", true, false, null, "MY@EMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEAt9I6+nL4trqvAUc5TRczsVud1i/CJ9DQlrfsWkcb4oZHzH6239DzHCs83EL5QnYw==", null, false, "", false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "ServiceItems",
+                columns: new[] { "Id", "DateAdd", "ImagePath", "ServiceType", "SubTittle", "Text", "Tittle" },
+                values: new object[,]
+                {
+                    { new Guid("1926c9bc-4da1-4063-8a61-918e9472a179"), new DateTime(2021, 5, 26, 12, 59, 10, 431, DateTimeKind.Local).AddTicks(6498), null, "МонтажныеРаботы", "Оказание монтажных работы по первой услуге", null, "First service" },
+                    { new Guid("a3e33d9a-e481-41f3-ae76-4608870821f8"), new DateTime(2021, 5, 26, 12, 59, 10, 432, DateTimeKind.Local).AddTicks(6498), null, "ДемонтажныеРаботы", "Оказание услуг по демонтажу", null, "Second service" },
+                    { new Guid("c9e722a5-5aa6-41e4-a159-b9474c8fd4b1"), new DateTime(2021, 5, 26, 12, 59, 10, 432, DateTimeKind.Local).AddTicks(6498), null, "ПлиточныеРаботы", "Укладка плитки по третьей услге", null, "Third service" }
+                });
 
             migrationBuilder.InsertData(
                 table: "TextFileds",
                 columns: new[] { "Id", "CodeWord", "DateAdd", "ImagePath", "SubTittle", "Text", "Tittle" },
                 values: new object[,]
                 {
-                    { new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"), "PageIndex", new DateTime(2021, 5, 24, 2, 1, 9, 189, DateTimeKind.Local).AddTicks(404), null, null, "Содержание заполняется администратором", "Главная" },
-                    { new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"), "PageServices", new DateTime(2021, 5, 24, 2, 1, 9, 190, DateTimeKind.Local).AddTicks(404), null, null, "Содержание заполняется администратором", "Наши услуги" },
-                    { new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"), "PageContacts", new DateTime(2021, 5, 24, 2, 1, 9, 190, DateTimeKind.Local).AddTicks(404), null, null, "Содержание заполняется администратором", "Контакты" }
+                    { new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"), "PageIndex", new DateTime(2021, 5, 26, 12, 59, 10, 432, DateTimeKind.Local).AddTicks(6498), null, null, "Содержание заполняется администратором", "Главная" },
+                    { new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"), "PageServices", new DateTime(2021, 5, 26, 12, 59, 10, 433, DateTimeKind.Local).AddTicks(6499), null, null, "Содержание заполняется администратором", "Наши услуги" },
+                    { new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"), "PageContacts", new DateTime(2021, 5, 26, 12, 59, 10, 433, DateTimeKind.Local).AddTicks(6499), null, null, "Содержание заполняется администратором", "Контакты" }
                 });
 
             migrationBuilder.InsertData(

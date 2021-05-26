@@ -5,6 +5,7 @@ using homework_20.Service;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,9 @@ namespace homework_20.Areas.Admin.Controllers
 
         public IActionResult Edit(Guid id)
         {
+            SelectList serviceTypes = new SelectList(ServiceType.GetServiceTypes(), "Key", "Value");
+            ViewData["ServiceTypes"] = serviceTypes;
+
             var entity = id == default ? new ServiceItem() : dataManager.ServiceItems.GetServiceItemById(id);
             return View(entity);
         }
@@ -45,6 +49,8 @@ namespace homework_20.Areas.Admin.Controllers
                 dataManager.ServiceItems.SaveServiceItem(model);
                 return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
             }
+            SelectList serviceTypes = new SelectList(ServiceType.GetServiceTypes(), "Key", "Value");
+            ViewData["ServiceTypes"] = serviceTypes;
             return View(model);
         }
 

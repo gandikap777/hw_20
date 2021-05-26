@@ -19,7 +19,7 @@ namespace homework_20.Models.Entity
         [Display(Name = "Содержание услуги")]
         public override string Text { get; set; }
 
-        //[Required(ErrorMessage = "Заполните тип услуги")]
+        [Required(ErrorMessage = "Заполните тип услуги")]
         [Display(Name = "Тип услуги")]
         public string ServiceType { get; set; }
 
