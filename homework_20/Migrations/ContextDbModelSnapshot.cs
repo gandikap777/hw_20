@@ -49,7 +49,7 @@ namespace homework_20.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "dcfee2c4-3e1e-4cc7-b254-85d71f5232a5",
+                            ConcurrencyStamp = "d131b500-6694-41a7-ae9b-55a4bf03cad6",
                             Name = "admin",
                             NormalizedName = "Administrator"
                         });
@@ -148,13 +148,13 @@ namespace homework_20.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4b3f58fd-f209-45cb-99be-faa57e24b92f",
+                            ConcurrencyStamp = "61a0c0db-6fc7-4b4f-bb87-3d94b893c103",
                             Email = "my@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MY@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAt9I6+nL4trqvAUc5TRczsVud1i/CJ9DQlrfsWkcb4oZHzH6239DzHCs83EL5QnYw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBrLCelTEOpywTC64fCpGhr12NZz6ScycAkHo3rZlL9V+uZFSvPVcjdcvF9/u5m5ug==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -283,7 +283,7 @@ namespace homework_20.Migrations
                         new
                         {
                             Id = new Guid("1926c9bc-4da1-4063-8a61-918e9472a179"),
-                            DateAdd = new DateTime(2021, 5, 26, 12, 59, 10, 431, DateTimeKind.Local).AddTicks(6498),
+                            DateAdd = new DateTime(2021, 5, 27, 9, 43, 6, 136, DateTimeKind.Local).AddTicks(6378),
                             ServiceType = "МонтажныеРаботы",
                             SubTittle = "Оказание монтажных работы по первой услуге",
                             Tittle = "First service"
@@ -291,7 +291,7 @@ namespace homework_20.Migrations
                         new
                         {
                             Id = new Guid("a3e33d9a-e481-41f3-ae76-4608870821f8"),
-                            DateAdd = new DateTime(2021, 5, 26, 12, 59, 10, 432, DateTimeKind.Local).AddTicks(6498),
+                            DateAdd = new DateTime(2021, 5, 27, 9, 43, 6, 144, DateTimeKind.Local).AddTicks(8517),
                             ServiceType = "ДемонтажныеРаботы",
                             SubTittle = "Оказание услуг по демонтажу",
                             Tittle = "Second service"
@@ -299,7 +299,7 @@ namespace homework_20.Migrations
                         new
                         {
                             Id = new Guid("c9e722a5-5aa6-41e4-a159-b9474c8fd4b1"),
-                            DateAdd = new DateTime(2021, 5, 26, 12, 59, 10, 432, DateTimeKind.Local).AddTicks(6498),
+                            DateAdd = new DateTime(2021, 5, 27, 9, 43, 6, 144, DateTimeKind.Local).AddTicks(8763),
                             ServiceType = "ПлиточныеРаботы",
                             SubTittle = "Укладка плитки по третьей услге",
                             Tittle = "Third service"
@@ -340,7 +340,7 @@ namespace homework_20.Migrations
                         {
                             Id = new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"),
                             CodeWord = "PageIndex",
-                            DateAdd = new DateTime(2021, 5, 26, 12, 59, 10, 432, DateTimeKind.Local).AddTicks(6498),
+                            DateAdd = new DateTime(2021, 5, 27, 9, 43, 6, 145, DateTimeKind.Local).AddTicks(6588),
                             Text = "Содержание заполняется администратором",
                             Tittle = "Главная"
                         },
@@ -348,7 +348,7 @@ namespace homework_20.Migrations
                         {
                             Id = new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"),
                             CodeWord = "PageServices",
-                            DateAdd = new DateTime(2021, 5, 26, 12, 59, 10, 433, DateTimeKind.Local).AddTicks(6499),
+                            DateAdd = new DateTime(2021, 5, 27, 9, 43, 6, 146, DateTimeKind.Local).AddTicks(2451),
                             Text = "Содержание заполняется администратором",
                             Tittle = "Наши услуги"
                         },
@@ -356,7 +356,7 @@ namespace homework_20.Migrations
                         {
                             Id = new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"),
                             CodeWord = "PageContacts",
-                            DateAdd = new DateTime(2021, 5, 26, 12, 59, 10, 433, DateTimeKind.Local).AddTicks(6499),
+                            DateAdd = new DateTime(2021, 5, 27, 9, 43, 6, 146, DateTimeKind.Local).AddTicks(2668),
                             Text = "Содержание заполняется администратором",
                             Tittle = "Контакты"
                         });

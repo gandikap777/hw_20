@@ -30,5 +30,13 @@ namespace homework_20.Controllers
             ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageServices");
             return View(dataManager.ServiceItems.GetServiceItems());
         }
+
+        //[HttpPost]
+        public ActionResult ServiceTypeSearch(string type)
+        {
+            var Services = dataManager.ServiceItems.GetServiceItems(type);
+
+            return View("Index", Services);
+        }
     }
 }

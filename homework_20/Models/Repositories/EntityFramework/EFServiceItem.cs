@@ -31,6 +31,11 @@ namespace homework_20.Models.Repositories.EntityFramework
             return context.ServiceItems;
         }
 
+        IQueryable<ServiceItem> IServiseItems.GetServiceItems(string type)
+        {
+            return context.ServiceItems.Where(x => x.ServiceType == type);
+        }
+
         void IServiseItems.SaveServiceItem(ServiceItem entity)
         {
             if (entity.Id == default)

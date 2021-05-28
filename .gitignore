@@ -306,6 +306,12 @@ _Pvt_Extensions
 .paket/paket.exe
 paket-files/
 
+#Migrations
+homework_20/Migrations/
+
+#settings
+appsettings.json
+
 # FAKE - F# Make
 .fake/
 
