@@ -38,11 +38,8 @@
         //    });
         //});
             $(document).ready(function () {
-            $("#submit").click(function (e) {
-                e.preventDefault();
-                var name = $('#search').val();
-                name = encodeURIComponent(name);
-                $('#result').load('@Url.Action("ServiceTypeSearch")?type=' + name)
+            $("#submit").click(function () {
+                $('#result').load('@Url.Action("ServiceTypeSearch")?type=оао')
             });
         });
         </script>
