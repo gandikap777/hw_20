@@ -9,6 +9,15 @@
                         <a asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         <a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="">Наши услуги</a>
                         <a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="Account" asp-action="Login">Вход</a>
+                        }
+
                     </nav>
                 </header>
 

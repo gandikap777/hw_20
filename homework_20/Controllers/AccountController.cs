@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace homework_20.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
-        public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signinMgr)
+        private readonly ILogger log;
+        public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signinMgr, ILogger log)
         {
             userManager = userMgr;
             signInManager = signinMgr;
+            this.log = log;
         }
 
         [AllowAnonymous]
@@ -39,6 +42,7 @@ namespace homework_20.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
+                        log.LogInformation($"Успешная атентификация. редирект: {returnUrl}");
                         return Redirect(returnUrl ?? "/");
                     }
                 }
@@ -50,6 +54,7 @@ namespace homework_20.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
+            log.LogInformation($"Выход из аккаунта: {signInManager.ToString()}");
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }

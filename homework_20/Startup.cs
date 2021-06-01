@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace homework_20
             services.AddTransient<ITextField, EFTextField>();
             services.AddTransient<IServiseItems, EFServiceItem>();
             services.AddTransient<DataManager>();
+
+
 
             //подключение контекста ДБ
             services.AddDbContext<ContextDb>(x => x.UseSqlServer(Config.ConnectionString));
@@ -70,6 +73,10 @@ namespace homework_20
             })
                 //Выставляем совместимость с asp.net core 3.0
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+
+            //logger
+            services.AddSingleton(typeof(ILogger), services.BuildServiceProvider().GetService<ILogger<string>>());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

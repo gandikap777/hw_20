@@ -34,9 +34,11 @@ namespace homework_20.Controllers
         //[HttpPost]
         public ActionResult ServiceTypeSearch(string type)
         {
+            var serviceTypes = ServiceType.GetServiceTypes();
+            ViewBag.ServiceTypes = serviceTypes;
             var Services = dataManager.ServiceItems.GetServiceItems(type);
 
-            return View("Index", Services);
+            return View("PartialView", Services);
         }
     }
 }

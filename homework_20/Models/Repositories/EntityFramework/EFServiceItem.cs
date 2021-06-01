@@ -33,6 +33,9 @@ namespace homework_20.Models.Repositories.EntityFramework
 
         IQueryable<ServiceItem> IServiseItems.GetServiceItems(string type)
         {
+            if(String.IsNullOrEmpty(type))
+                return context.ServiceItems;
+
             return context.ServiceItems.Where(x => x.ServiceType == type);
         }
 

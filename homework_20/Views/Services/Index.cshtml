@@ -9,7 +9,7 @@
 <div id="results">
     @if (Model.Any())
     {
-        <ul class="small-image-list">
+        <ul class="small-image-list" id="services_list">
             @foreach (ServiceItem entity in Model)
             {
                 <li>
@@ -23,26 +23,29 @@
                 </li>
             }
         </ul>
-        <div class="div-box">
-            @Html.DropDownList("ServiceType", new SelectList(ViewBag.ServiceTypes, "Key", "Value"), "-Выберите значение-")
-            <input type="text" id="search" name="search" />
-            <input type="submit" id="submit" value="Отобрать" />
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-            <script type="text/javascript">
-        //$("#type").submit(function () {
-        //    var str = $(this).serialize();
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "Services",
-        //        data: str
-        //    });
-        //});
-            $(document).ready(function () {
-            $("#submit").click(function () {
-                $('#result').load('@Url.Action("ServiceTypeSearch")?type=оао')
+
+    }
+</div>
+<div class="div-box">
+    @Html.DropDownList("ServiceType", new SelectList(ViewBag.ServiceTypes, "Key", "Value"), "-Выберите значение-")
+    <input type="submit" id="mybatton" value="Отобрать" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#mybatton").click(function () {
+                //document.getElementById("services_list").innerHTML = "";
+                var name = document.getElementById("ServiceType").value;
+                $.ajax({
+                    type: "POST",
+                    dataType: "html",
+                    url: "Services/ServiceTypeSearch",
+                    data: { type: name },
+                    success: function (result) {
+                        $('#results').html(result);
+                    }
+                });
             });
         });
-        </script>
-        </div>
-    }</div>
-
+    </script>
+</div>
