@@ -32,6 +32,8 @@ namespace homework_20
             //Подчключение сервисов
             services.AddTransient<ITextField, EFTextField>();
             services.AddTransient<IServiseItems, EFServiceItem>();
+            services.AddTransient<IEFAccount, EFAccount>();
+            services.AddTransient<IEFDeposit, EFDeposit>();
             services.AddTransient<DataManager>();
 
 

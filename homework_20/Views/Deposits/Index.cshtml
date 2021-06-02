@@ -1,0 +1,45 @@
+﻿@using HomeWork_13.Models
+@model IQueryable<IDeposit>
+@{
+    TextField textField = ViewBag.TextField;
+
+    ViewBag.Title = textField.Tittle;
+    ViewBag.Description = textField.SubTittle;
+}
+
+<div id="results">
+    <table class="table-box">
+        <tr>
+            <th>Вклад</th>
+            <th>Сумма</th>
+            <th>Период</th>
+            <th>Ставка</th>
+            <th>Итого</th>
+        </tr>
+        @if (Model.Any())
+        {
+            @*<ul class="small-image-list" id="services_list">
+                @foreach (IDeposit entity in Model)
+                {
+                    <li>
+                        <a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="@entity.ID">
+                            <h4>@entity.ID</h4>
+                        </a>
+                        <p>@entity.Summ</p>
+                    </li>
+                }
+            </ul>*@
+            @foreach (IDeposit entity in Model)
+            {
+                <tr>
+                    <td>@entity.ID</td>
+                    <td>@entity.Summ</td>
+                    <td>@entity.Period</td>
+                    <td>@entity.Rate</td>
+                    <td>@entity.Outcome</td>
+                </tr>
+            }
+
+        }
+    </table>
+</div>

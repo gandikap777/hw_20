@@ -1967,3 +1967,30 @@ ul.link-list li {
     max-width: 100%;
     margin: 0 auto;
 }
+
+.table-box table {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 14px;
+    background: white;
+    max-width: 70%;
+    width: 70%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table-box th {
+    font-weight: normal;
+    color: #039;
+    padding: 10px 15px;
+}
+
+.table-box td {
+    color: #669;
+    border-top: 1px solid #e8edff;
+    padding: 10px 15px;
+}
+
+.table-box tr:hover td {
+    background: #ccddff;
+    color: #6699ff;
+}

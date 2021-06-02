@@ -1,0 +1,39 @@
+﻿@using HomeWork_13.Models
+@model IQueryable<IAccount>
+@{
+    TextField textField = ViewBag.TextField;
+
+    ViewBag.Title = textField.Tittle;
+    ViewBag.Description = textField.SubTittle;
+}
+
+<div id="results">
+    <table class="table-box">
+        <tr>
+            <th>Номер счета</th>
+            <th>Баланс</th>
+        </tr>
+        @if (Model.Any())
+        {
+            @*<ul class="small-image-list" id="services_list">
+                @foreach (IAccount entity in Model)
+                {
+                    <li>
+                        <a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="@entity.ID">
+                            <h4>@entity.ID</h4>
+                        </a>
+                        <p>@entity.Balance</p>
+                    </li>
+                }
+            </ul>*@
+
+            @foreach (IAccount entity in Model)
+            {
+                <tr>
+                    <td>@entity.ID</td>
+                    <td>@entity.Balance</td>
+                </tr>
+            }
+        }
+    </table>
+</div>

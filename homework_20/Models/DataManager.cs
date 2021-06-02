@@ -12,10 +12,19 @@ namespace homework_20.Models
 
         public IServiseItems ServiceItems { get; set; }
 
-        public DataManager(ITextField textFieldRepositories, IServiseItems serviceItemsRepositories)
+        public IEFAccount Accounts { get; set; }
+
+        public IEFDeposit Deposits { get; set; }
+
+        public DataManager(ITextField textFieldRepositories,
+                           IServiseItems serviceItemsRepositories, 
+                           IEFAccount accountsRepositories, 
+                           IEFDeposit depositsRepositories)
         {
             TextFields = textFieldRepositories;
             ServiceItems = serviceItemsRepositories;
+            Accounts = accountsRepositories;
+            Deposits = depositsRepositories;
         }
     }
 }

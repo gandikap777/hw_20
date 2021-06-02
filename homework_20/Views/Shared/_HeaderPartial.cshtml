@@ -7,10 +7,12 @@
                     <h1><a href="/" id="logo">@Config.CompanyName</a></h1>
                     <nav id="nav">
                         <a asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
-                        <a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="">Наши услуги</a>
-                        <a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a>
+                        @*<a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="">Наши услуги</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a>*@
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <a asp-area="" asp-controller="Accounts" asp-action="Index" asp-route-id="">Счета</a>
+                            <a asp-area="" asp-controller="Deposits" asp-action="Index" asp-route-id="">Вклады</a>
                             <a asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
                         }
                         else
