@@ -1,4 +1,5 @@
 ﻿using homework_20.Models;
+using homework_20.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +14,17 @@ namespace homework_20.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
         private readonly ILogger log;
-        public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signinMgr, ILogger log)
+        public AccountController(UserManager<User> userMgr, SignInManager<User> signinMgr, ILogger log)
         {
             userManager = userMgr;
             signInManager = signinMgr;
             this.log = log;
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
@@ -35,7 +37,7 @@ namespace homework_20.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser user = await userManager.FindByNameAsync(model.UserName);
+                User user = await userManager.FindByNameAsync(model.UserName);
                 if (user != null)
                 {
                     await signInManager.SignOutAsync();
@@ -57,6 +59,39 @@ namespace homework_20.Controllers
             log.LogInformation($"Выход из аккаунта: {signInManager.ToString()}");
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View(new UserRegistration());
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(UserRegistration model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User { UserName = model.LoginProp };
+                var createResult = await userManager.CreateAsync(user, model.Password);
+
+                if (createResult.Succeeded)
+                {
+                    await signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else//иначе
+                {
+                    foreach (var identityError in createResult.Errors)
+                    {
+                        ModelState.AddModelError("", identityError.Description);
+                    }
+                }
+            }
+
+            return View(model);
         }
     }
 

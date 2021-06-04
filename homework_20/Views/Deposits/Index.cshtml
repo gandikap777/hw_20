@@ -1,5 +1,4 @@
-﻿@using HomeWork_13.Models
-@model IQueryable<IDeposit>
+﻿@model IQueryable<IDeposit>
 @{
     TextField textField = ViewBag.TextField;
 
@@ -18,17 +17,7 @@
         </tr>
         @if (Model.Any())
         {
-            @*<ul class="small-image-list" id="services_list">
-                @foreach (IDeposit entity in Model)
-                {
-                    <li>
-                        <a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="@entity.ID">
-                            <h4>@entity.ID</h4>
-                        </a>
-                        <p>@entity.Summ</p>
-                    </li>
-                }
-            </ul>*@
+
             @foreach (IDeposit entity in Model)
             {
                 <tr>

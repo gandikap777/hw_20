@@ -42,7 +42,7 @@ namespace homework_20
             services.AddDbContext<ContextDb>(x => x.UseSqlServer(Config.ConnectionString));
 
             //
-            services.AddIdentity<IdentityUser, IdentityRole>(opts =>
+            services.AddIdentity<User, IdentityRole>(opts =>
             {
                 opts.User.RequireUniqueEmail = true;
                 opts.Password.RequiredLength = 6;

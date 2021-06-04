@@ -62,30 +62,15 @@ namespace homework_20.Models
             ///add data
             ///
             builder.Entity<CustomClient>().HasData(new CustomClient() { ID = 1, FirstName = "Andrey", LastName = "Kolominov", Birthday = new DateTime(1989, 12, 4), RegistrationDate = new DateTime(2010, 11, 5), IdDepartment = 1 });
-            //builder.Entity<CustomClient>().HasData(ClientFactory.GetClient(
-            //                                        "Client",
-            //                                        "Andrey",
-            //                                        "Kolominov",
-            //                                        new DateTime(1989, 12, 4),
-            //                                        new DateTime(2010, 11, 5),
-            //                                        1));
+
             builder.Entity<BasicAccount>().HasData(new BasicAccount() { ID = 1, Balance = 100, IdClient = 1});
-            //builder.Entity<BasicAccount>().HasData(AccountFactory.GetAccount(
-            //                            "Basic",
-            //                            1,
-            //                            100));
 
             builder.Entity<BasicDeposit>().HasData(new BasicDeposit() { ID = 1, Summ = 1000, IdClient = 1, Capitalization = true, Period = 9, Rate = 7, DateOpen = new DateTime(2020, 10, 4) });
-            //builder.Entity<BasicDeposit>().HasData(DepositFactory.GetDeposit(
-            //                            "Basic",
-            //                            new DateTime(2020, 10, 4),
-            //                            9,
-            //                            1000,
-            //                            true,
-            //                            7,
-            //                            1));
+
             builder.Entity<StructuralUnit>().HasData(new StructuralUnit() { ID = 1, Name = "Clients" });
+
             builder.Entity<StructuralUnit>().HasData(new StructuralUnit() { ID = 2, Name = "Vip Clients" });
+
             builder.Entity<StructuralUnit>().HasData(new StructuralUnit() { ID = 3, Name = "Company Clients" });
             
             //add service
