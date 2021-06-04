@@ -15,13 +15,13 @@ namespace homework_20.Service
 
         [Required, MaxLength(20)]
         [Display(Name = "Логин")]
-        public string LoginProp { get; set; }
+        public string Login { get; set; }
 
         [Required, DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password), Compare(nameof(Password))]
+        [DataType(DataType.Password), Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
         [Display(Name = "Подтверждение пароля")]
         public string ConfirmPassword { get; set; }
     }
