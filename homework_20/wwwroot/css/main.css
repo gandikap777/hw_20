@@ -1958,6 +1958,10 @@ ul.link-list li {
         display: block;
     }
 
+    .div-box input{
+        width: 200px
+    }
+
     .div-box a {
         display: block;
     }
@@ -1968,6 +1972,9 @@ ul.link-list li {
     margin: 0 auto;
 }
 
+.remember_me input{
+    width:0px
+}
 .table-box table {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
     font-size: 14px;
@@ -1993,4 +2000,8 @@ ul.link-list li {
 .table-box tr:hover td {
     background: #ccddff;
     color: #6699ff;
+}
+
+.registration input {
+    width: 200px
 }

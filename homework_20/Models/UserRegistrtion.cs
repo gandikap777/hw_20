@@ -17,6 +17,18 @@ namespace homework_20.Service
         [Display(Name = "Логин")]
         public string Login { get; set; }
 
+        [Required]
+        [Display(Name = "Имя")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Фамилия")]
+        public string LastName { get; set; }
+
+        [Required, DataType(DataType.Date)]
+        [Display(Name = "Дата рождения")]
+        public string Birthday { get; set; }
+
         [Required, DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }

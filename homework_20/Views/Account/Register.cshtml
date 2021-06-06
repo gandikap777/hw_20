@@ -10,23 +10,39 @@
         <form asp-area="" asp-controller="Account" asp-action="Register" method="post" autocomplete="off" asp-route-returnUrl="@ViewBag.returnUrl">
             <div asp-validation-summary="All"></div>
             <div>
-                <label asp-for="LoginProp"></label>
-                <input asp-for="LoginProp"/>
-                <span asp-validation-for="LoginProp"></span>
+                <label asp-for="Login"></label>
+                <input asp-for="Login" />
+                <span asp-validation-for="Login"></span>
+            </div>
+            <div>
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="registration"/>
+                <span asp-validation-for="FirstName"></span>
+            </div>
+            <div>
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="registration"/>
+                <span asp-validation-for="LastName"></span>
+            </div>
+            <div>
+                <label asp-for="Birthday"></label>
+                @*<input asp-for="Birthday" />*@
+                @Html.TextBoxFor(model => model.Birthday, new { style = "width:200px", type = "date" })
+                <span asp-validation-for="Birthday"></span>
             </div>
             <div>
                 <label asp-for="Email"></label>
-                <input asp-for="Email"/>
+                <input asp-for="Email" class="registration"/>
                 <span asp-validation-for="Email"></span>
             </div>
             <div>
                 <label asp-for="Password"></label>
-                <input asp-for="Password"/>
+                <input asp-for="Password" class="registration"/>
                 <span asp-validation-for="Password"></span>
             </div>
             <div>
                 <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword"/>
+                <input asp-for="ConfirmPassword" class="registration"/>
                 <span asp-validation-for="ConfirmPassword"></span>
             </div>
             <div>
@@ -35,3 +51,8 @@
         </form>
     </div>
 </div>
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+       $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+</script>

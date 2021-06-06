@@ -33,6 +33,7 @@ namespace homework_20
             services.AddTransient<ITextField, EFTextField>();
             services.AddTransient<IServiseItems, EFServiceItem>();
             services.AddTransient<IEFAccount, EFAccount>();
+            services.AddTransient<IEFClient, EFClient>();
             services.AddTransient<IEFDeposit, EFDeposit>();
             services.AddTransient<DataManager>();
 

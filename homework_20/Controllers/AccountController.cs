@@ -1,4 +1,6 @@
-﻿using homework_20.Models;
+﻿using HomeWork_13;
+using HomeWork_13.Models;
+using homework_20.Models;
 using homework_20.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,12 +18,14 @@ namespace homework_20.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private readonly DataManager dataManager;
         private readonly ILogger log;
-        public AccountController(UserManager<User> userMgr, SignInManager<User> signinMgr, ILogger log)
+        public AccountController(UserManager<User> userMgr, SignInManager<User> signinMgr, DataManager dataManager, ILogger log)
         {
             userManager = userMgr;
             signInManager = signinMgr;
             this.log = log;
+            this.dataManager = dataManager;
         }
 
         [HttpGet]
@@ -74,11 +78,16 @@ namespace homework_20.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.LoginProp };
+                User user = new User { UserName = model.Login, Email = model.Email };
                 var createResult = await userManager.CreateAsync(user, model.Password);
 
                 if (createResult.Succeeded)
                 {
+                    IClient newClient = ClientFactory.GetClient("Client", model.FirstName, model.LastName, DateTime.Parse(model.Birthday), DateTime.Now.Date, 1);
+                    
+                    dataManager.Clients.SaveClient(newClient);
+                    user.Client = (Person)newClient;
+                    await userManager.UpdateAsync(user);
                     await signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
                 }
