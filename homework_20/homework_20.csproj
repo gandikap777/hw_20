@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\HomeWork_19\HomeWork_19\HomeWork_13\HomeWork_13.csproj" />
+    <ProjectReference Include="..\HomeWork_13\HomeWork_13.csproj" />
   </ItemGroup>
 
   <ItemGroup>

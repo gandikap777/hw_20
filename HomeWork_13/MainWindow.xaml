@@ -1,0 +1,153 @@
+﻿<Window x:Class="HomeWork_13.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:HomeWork_13"
+        xmlns:m="clr-namespace:HomeWork_13"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter   Grid.Column="4"
+                        Grid.Row="1"
+                        Grid.RowSpan="12"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Right"
+                        Background="Gray" 
+                        Width="3"/>
+        <GridSplitter   Grid.Row="8"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="10"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Background="Gray" 
+                        Height="3"/>
+        <DockPanel Grid.ColumnSpan="14">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <Separator />
+                    <MenuItem Header="_Exit" Click="MenuItem_Click_Exit" />
+                </MenuItem>
+            </Menu>
+            <TextBox AcceptsReturn="True" />
+        </DockPanel>
+        <DataGrid 
+                  x:Name="DepartmentsList"                                   
+                  HorizontalAlignment="Stretch" 
+                  Margin="9,10,11,10" 
+                  VerticalAlignment="Stretch" 
+                  IsSynchronizedWithCurrentItem="True"
+                  SelectionMode="Single" 
+                  AutoGenerateColumns="False"
+                  IsReadOnly="true"                
+                  Grid.Row="1"
+                  Grid.RowSpan="12"
+                  Grid.ColumnSpan="5" >
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="idDepartment" 
+                                    Binding="{Binding ID}" 
+                                    Header="Id" 
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="DepName" 
+                                    Binding="{Binding Name}" 
+                                    Header="Наименование"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="ClientsList"
+                  Grid.Column="5" 
+                  HorizontalAlignment="Stretch"
+                  Margin="10,10,10,10" 
+                  VerticalAlignment="Stretch" 
+                  IsSynchronizedWithCurrentItem="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  SelectionMode="Single" 
+                  IsReadOnly="true"
+                  AutoGenerateColumns="False"
+                  Grid.ColumnSpan="9"
+                  Grid.Row="1"
+                  Grid.RowSpan="7"
+                  HorizontalContentAlignment="Stretch">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="idClient" 
+                                    Binding="{Binding ID}" 
+                                    Header="Id" 
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="FirstName" 
+                                    Binding="{Binding FirstName}" 
+                                    Header="Имя"/>
+                <DataGridTextColumn x:Name="LastName" 
+                                    Binding="{Binding LastName}" 
+                                    Header="Фамилия"/>
+                <DataGridTextColumn x:Name="idDep" 
+                                    Binding="{Binding idDepartment}" 
+                                    Header="Подразделение"
+                                    Visibility="Hidden"/>
+                <DataGridTextColumn x:Name="registrationdate" 
+                                    Binding="{Binding RegistrationDate}" 
+                                    Header="Дата регистрации"
+                                    Visibility="Hidden"/>
+                <DataGridTextColumn x:Name="Birthday" 
+                                    Binding="{Binding Birthday, StringFormat={}{0:dd/MM/yyyy}}" 
+                                    Header="Дата рождения"/>
+                <DataGridTextColumn x:Name="Age" 
+                                    Binding="{Binding Age}" 
+                                    Header="Возраст"
+                                    IsReadOnly="True"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <StackPanel Grid.Column="5"
+                    Grid.ColumnSpan="10"
+                    Grid.Row="8"
+                    Grid.RowSpan="5"
+                    Margin="5">
+            <Button x:Name="ClientAdd"
+                    HorizontalAlignment="Stretch"
+                    MinWidth="100"
+                    Content="Client add"
+                    VerticalAlignment="Bottom"
+                    Margin="5,10,5,10"
+                    />
+            <Button x:Name="Clientinfo"
+                    HorizontalAlignment="Stretch"
+                    MinWidth="100"
+                    Content="Client info"
+                    VerticalAlignment="Bottom"
+                    Margin="5,0,5,15"/>
+            
+        </StackPanel>
+    </Grid>
+</Window>

@@ -21,13 +21,13 @@ namespace homework_20
     public class Startup
     {
 
-        public IConfiguration Configeration { get; }
-        public Startup(IConfiguration configuration) => Configeration = configuration;
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
             //Подключаем конфиг из appsettings.json
-            Configeration.Bind("Project", new Config());
+            Configuration.Bind("Project", new Config());
 
             //Подчключение сервисов
             services.AddTransient<ITextField, EFTextField>();
