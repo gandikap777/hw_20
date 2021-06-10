@@ -1,4 +1,5 @@
 ﻿using HomeWork_13;
+using HomeWork_13.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,10 @@ namespace hw_22_web_api.Models.Repositories.Interfases
     {
         IEnumerable<StructuralUnit> GetDepartments();
 
+        IEnumerable<IClient> GetDepartmentClient(int idDepartment);
 
+        void SaveAccount(IAccount entity);
+
+        Account GetAccount(int id);
     }
 }
