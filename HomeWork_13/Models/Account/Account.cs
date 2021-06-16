@@ -104,6 +104,11 @@ namespace HomeWork_13
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override string ToString()
+        {
+            return $"Счет № {this.ID}";
+        }
     }
 
 

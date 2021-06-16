@@ -33,6 +33,11 @@ namespace hw_22_web_api.Models.Repositories.EntityFramework
             return context.StructuralUnits.ToList();
         }
 
+        Deposit IApiRepository.GetDeposit(int id)
+        {
+            return context.Deposits.Where(x => x.ID == id).FirstOrDefault();
+        }
+
         void IApiRepository.SaveAccount(IAccount entity)
         {
             if (entity.ID == default)
@@ -40,6 +45,56 @@ namespace hw_22_web_api.Models.Repositories.EntityFramework
             else
                 context.Entry(entity).State = EntityState.Modified;
             context.SaveChanges();
+        }
+
+        void IApiRepository.SaveClient(IClient entity)
+        {
+            if (entity.ID == default)
+                context.Entry(entity).State = EntityState.Added;
+            else
+                context.Entry(entity).State = EntityState.Modified;
+            context.SaveChanges();
+        }
+
+        Person IApiRepository.GetClient(int id)
+        {
+            return context.Persons.Where(x => x.ID == id).FirstOrDefault();
+        }
+
+        void IApiRepository.SaveDeposit(IDeposit entity)
+        {
+            if (entity.ID == default)
+                context.Entry(entity).State = EntityState.Added;
+            else
+                context.Entry(entity).State = EntityState.Modified;
+            context.SaveChanges();
+        }
+
+        void IApiRepository.IncreaseBalance(IAccount acc, double summ)
+        {
+            acc.WriteMessage += context.WriteMessage;
+
+            acc.IncreaseBalance(summ);
+
+        }
+
+        void IApiRepository.DecreaseBalance(IAccount acc, double summ)
+        {
+            acc.WriteMessage += context.WriteMessage;
+
+            acc.DecreaseBalance(summ);
+        }
+
+        void IApiRepository.Transfer(IAccount accFrom, IAccount accTo, double summ)
+        {
+            accFrom.WriteMessage += context.WriteMessage;
+
+            accTo.WriteMessage += context.WriteMessage;
+
+            accFrom.DecreaseBalance(summ);
+
+            accTo.IncreaseBalance(summ);
+
         }
     }
 }

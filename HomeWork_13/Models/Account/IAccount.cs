@@ -13,5 +13,12 @@ namespace HomeWork_13.Models
         double Balance { get; set; }
 
         int IdClient { get; set; }
+
+        event Action<int, string> WriteMessage;
+
+        void IncreaseBalance(double Summ);
+
+        void DecreaseBalance(double Summ);
+
     }
 }

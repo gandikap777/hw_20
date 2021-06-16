@@ -22,6 +22,17 @@ namespace hw_22_web_api
 
         public DbSet<Messages> Messages { get; set; }
 
+        /// <summary>
+        /// Метод записывает сообщение по клиенту и сохраняет в БД
+        /// </summary>
+        /// <param name="idclient"></param>
+        /// <param name="msg"></param>
+        public void WriteMessage(int idclient, string msg)
+        {
+            Messages.Add(new Messages() { IdClient = idclient, MSG = msg });
+            SaveChanges();
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<BasicAccount>();

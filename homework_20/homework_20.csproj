@@ -56,7 +56,7 @@
 
   <ItemGroup>
     <Reference Include="HomeWork_15_Library">
-      <HintPath>bin\Debug\HomeWork_15_Library.dll</HintPath>
+      <HintPath>..\HomeWork_13\DLL\HomeWork_15_Library.dll</HintPath>
     </Reference>
   </ItemGroup>
 

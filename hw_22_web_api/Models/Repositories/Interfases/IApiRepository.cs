@@ -16,5 +16,19 @@ namespace hw_22_web_api.Models.Repositories.Interfases
         void SaveAccount(IAccount entity);
 
         Account GetAccount(int id);
+
+        void SaveDeposit(IDeposit entity);
+
+        Deposit GetDeposit(int id);
+
+        void SaveClient(IClient entity);
+
+        Person GetClient(int id);
+
+        void IncreaseBalance(IAccount acc, double summ);
+
+        void DecreaseBalance(IAccount acc, double summ);
+
+        void Transfer(IAccount accFrom, IAccount accTo, double summ);
     }
 }

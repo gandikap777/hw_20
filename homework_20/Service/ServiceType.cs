@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeWork_13.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,4 +21,19 @@ namespace homework_20.Service
             return ServiceTypes;
         }
     }
+    public static class GetData
+    {
+        public static Dictionary<int, string> GetDataAccounts(IEnumerable<IAccount> accounts)
+        {
+            Dictionary<int, string> acc = new Dictionary<int, string>();
+
+            foreach (IAccount item in accounts)
+            {
+                acc.Add(item.ID, item.ToString());
+            }
+
+            return acc;
+        }
+    }
+
 }

@@ -86,7 +86,7 @@ namespace homework_20.Controllers
                     IClient newClient = ClientFactory.GetClient("Client", model.FirstName, model.LastName, DateTime.Parse(model.Birthday), DateTime.Now.Date, 1);
                     
                     dataManager.Clients.SaveClient(newClient);
-                    user.Client = (Person)newClient;
+                    user.idClient = newClient.ID;
                     await userManager.UpdateAsync(user);
                     await signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");

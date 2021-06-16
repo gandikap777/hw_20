@@ -12,7 +12,7 @@ namespace homework_20.Service
 
     public class User : IdentityUser
     {
-        public Person Client { get; set; }
+        public Nullable<int> idClient { get; set; }
 
     }
 }

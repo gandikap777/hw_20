@@ -1,0 +1,25 @@
+﻿@using HomeWork_13.Models
+@model IQueryable<IAccount>
+@{
+    Layout = null;
+}
+
+<div id="results">
+    <table class="table-box">
+        <tr>
+            <th>Номер счета</th>
+            <th>Баланс</th>
+        </tr>
+        @if (Model.Any())
+        {
+
+            @foreach (IAccount entity in Model)
+            {
+                <tr>
+                    <td>@entity.ID</td>
+                    <td>@entity.Balance</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
