@@ -28,8 +28,8 @@
 </div>
 
 <div class="div-box">
-    <input type="number" step="0.01" min="0" placeholder="0,00">₽
-    <select name="AccountSelect" required>
+    <input id="TopUpSumm" name ="TopUpSumm" type="number" step="0.01" min="0" placeholder="0,00">₽
+    <select id="AccountSelect" name="AccountSelect" required>
         <option disabled>-Выберите значение-</option>
         @foreach (var item in ViewBag.Accounts)
         {
@@ -59,10 +59,21 @@
         $(document).ready(function () {
 
             $("#TopUpBalance").click(function () {
+                var selidacc = document.getElementById("AccountSelect").value;
+                
+                var summtop = document.getElementById("TopUpSumm").value;
+                
+                var obj = {
+                    id: selidacc,
+                    summ: summtop
+                };
+                alert(JSON.stringify(obj));
                 $.ajax({
-                    type: "Post",
+                    type: "POST",
                     dataType: "html",
-                    url: "Accounts/OpenAccount",
+                    contentType: "application/json",
+                    data: JSON.stringify(obj),
+                    url: "Accounts/TopUpBalance",
                     success: function (result) {
                         $('#results').html(result);
                     }

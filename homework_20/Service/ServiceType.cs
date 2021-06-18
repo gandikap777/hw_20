@@ -36,4 +36,17 @@ namespace homework_20.Service
         }
     }
 
+    public class BalanceTransferBody
+    {
+        public int fromid { get; set; }
+        public int toid { get; set; }
+        public double summ { get; set; }
+    }
+
+    public class ChangeBalanceBody
+    {
+        public int id { get; set; }
+        public double summ { get; set; }
+    }
+
 }

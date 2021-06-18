@@ -41,7 +41,7 @@ namespace homework_20.Controllers
         [Authorize]
         public async Task<ActionResult> OpenAccount()
         {
-            WebRequest request = WebRequest.Create("https://localhost:5001/api/Bank/Account/Create");
+            WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Account/Create");
             request.Method = "POST"; // для отправки используется метод Post
             // устанавливаем тип содержимого - параметр ContentType
             request.ContentType = "application/json";
@@ -69,6 +69,39 @@ namespace homework_20.Controllers
 
 
             return  View("PartialView", dataManager.Accounts.GetAccounts((int)user.idClient));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> TopUpBalance([FromBody] ChangeBalanceBody body)
+        {
+            User user = await usrMngr.GetUserAsync(User);
+
+            WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Account/ChangeBalance");
+            request.Method = "POST"; // для отправки используется метод Post
+            // устанавливаем тип содержимого - параметр ContentType
+            request.ContentType = "application/json";
+
+           
+            string accstring = JsonConvert.SerializeObject(new
+            {
+                id = body.id,
+                summ = body.summ,
+            });
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(accstring);
+
+            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+            request.ContentLength = byteArray.Length;
+
+            //записываем данные в поток запроса
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
+
+            WebResponse response = await request.GetResponseAsync();
+
+            return View("PartialView", dataManager.Accounts.GetAccounts((int)user.idClient));
         }
 
     }

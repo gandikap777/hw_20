@@ -1,5 +1,6 @@
 ﻿using HomeWork_13;
 using HomeWork_13.Models;
+using homework_20.Service;
 using hw_22_web_api.Data;
 using hw_22_web_api.Models.Repositories.Interfases;
 using Microsoft.AspNetCore.Mvc;
@@ -136,17 +137,6 @@ namespace hw_22_web_api.Controllers
             return CreatedAtAction(nameof(GetAccount), new { id = accfrom.ID }, accfrom);
         }
 
-        public struct BalanceTransferBody
-        {
-            public int fromid { get; set; }
-            public int toid { get; set; }
-            public double summ { get; set; }
-        }
 
-        public struct ChangeBalanceBody
-        {
-            public int id { get; set; }
-            public double summ { get; set; }
-        }
     }
 }
