@@ -15,7 +15,7 @@
         </tr>
         @if (Model.Any())
         {
-          
+
             @foreach (IAccount entity in Model)
             {
                 <tr>
@@ -27,18 +27,28 @@
     </table>
 </div>
 
+<div>
+    <a asp-area="" asp-controller="Accounts" asp-action="TopUpBalance">Пополнить счет</a>
+    |
+    <a asp-area="" asp-controller="Accounts" asp-action="Transfer">Перевод</a>
+    |
+    <a id="AccOpen">Открыть счет</a>
+</div>
+
+
 <div class="div-box">
-    <input id="TopUpSumm" name ="TopUpSumm" type="number" step="0.01" min="0" placeholder="0,00">₽
-    <select id="AccountSelect" name="AccountSelect" required>
-        <option disabled>-Выберите значение-</option>
-        @foreach (var item in ViewBag.Accounts)
-        {
-            <option value="@item.Key">@item.Value</option>
-        }
-    </select>
-    @*@Html.DropDownList("SelectAccounts", new SelectList(ViewBag.Accounts, "Key", "Value"), "-Выберите значение-")*@
-    <input type="submit" class="button" id="TopUpBalance" value="Пополнить счет" />
-    <input type="submit" class="button" id="AccOpen" value="Открыть счет" />
+
+    @*<form asp-area="" asp-controller="Accounts" asp-action="TopUpBalance" method="get">
+        <input class="button" type="submit" value="Пополнить счет" />
+    </form>
+
+    <form asp-area="" asp-controller="Accounts" asp-action="Transfer" method="get">
+        <input class="button" type="submit" value="Перевод" />
+    </form>
+
+    <form>
+        <input type="submit" class="button" id="AccOpen" value="Открыть счет" />
+    </form>*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -55,30 +65,5 @@
             });
         });
     </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
 
-            $("#TopUpBalance").click(function () {
-                var selidacc = document.getElementById("AccountSelect").value;
-                
-                var summtop = document.getElementById("TopUpSumm").value;
-                
-                var obj = {
-                    id: selidacc,
-                    summ: summtop
-                };
-                alert(JSON.stringify(obj));
-                $.ajax({
-                    type: "POST",
-                    dataType: "html",
-                    contentType: "application/json",
-                    data: JSON.stringify(obj),
-                    url: "Accounts/TopUpBalance",
-                    success: function (result) {
-                        $('#results').html(result);
-                    }
-                });
-            });
-        });
-    </script>
 </div>

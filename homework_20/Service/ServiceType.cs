@@ -49,4 +49,11 @@ namespace homework_20.Service
         public double summ { get; set; }
     }
 
+    public class DepositBody
+    {
+        public int fromid { get; set; }
+        public int toid { get; set; }
+        public double summ { get; set; }
+    }
+
 }

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace hw_22_web_api.Controllers
@@ -83,7 +85,18 @@ namespace hw_22_web_api.Controllers
             IAccount acc = dataRepository.GetAccount(id);
 
             if (acc == null)
-                return NotFound();
+            {
+                //var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
+                //{
+                //    Content = new StringContent(string.Format("No product with ID = {0}", id)),
+                //    ReasonPhrase = "Product ID Not Found"
+                //};
+                //throw new HttpResponseException(resp);
+
+                var message = string.Format("Product with id = {0} not found", id);
+                return BadRequest(message);
+
+            }
 
             dataRepository.IncreaseBalance(acc, summ);
 
@@ -98,7 +111,18 @@ namespace hw_22_web_api.Controllers
             IAccount acc = dataRepository.GetAccount(body.id);
 
             if (acc == null)
-                return NotFound();
+            {
+                //var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
+                //{
+                //    Content = new StringContent(string.Format("No product with ID = {0}", id)),
+                //    ReasonPhrase = "Product ID Not Found"
+                //};
+                //throw new HttpResponseException(resp);
+
+                var message = string.Format("Account with id = {0} not found", body.id);
+                return BadRequest(message);
+
+            }
 
             if (body.summ > 0) dataRepository.IncreaseBalance(acc, body.summ);
             else dataRepository.DecreaseBalance(acc, body.summ);
@@ -138,5 +162,11 @@ namespace hw_22_web_api.Controllers
         }
 
 
+
+    }
+
+    public class HttpResponseException : Exception
+    {
+        public HttpResponseException(HttpResponseMessage rec) { }
     }
 }

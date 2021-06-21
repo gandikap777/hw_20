@@ -1,5 +1,16 @@
-﻿@using HomeWork_13.Models
-@model IAccount
-@{
-    
-}
+﻿@model TopUpBalance
+
+<form asp-area="" asp-controller="Accounts" asp-action="TopUpBalance" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form__group field">
+        <input asp-for="Summ" type="number" min="0" step="0.01" class="form__field" placeholder="Сумма пополнения" name="Summ" id="summ" required />
+        <label for="name" class="form__label">Сумма пополнения</label>
+    </div>
+
+    <div class="form__group field">
+        <input asp-for="AccNumber" type="number" min="0" class="form__field" placeholder="Номер счета" name="AccNumber" id="accNumber" required />
+        <label for="name" class="form__label">Номер счета</label>
+    </div>
+
+    <input class="button" type="submit" value="Пополнить счет" />
+</form>

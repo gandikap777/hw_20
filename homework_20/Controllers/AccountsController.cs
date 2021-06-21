@@ -32,7 +32,7 @@ namespace homework_20.Controllers
             
             User user = await usrMngr.GetUserAsync(User);
             var acc = dataManager.Accounts.GetAccounts((int)user.idClient);
-            ViewBag.Accounts = GetData.GetDataAccounts(acc);
+
             return View(acc);
         }
 
@@ -71,22 +71,89 @@ namespace homework_20.Controllers
             return  View("PartialView", dataManager.Accounts.GetAccounts((int)user.idClient));
         }
 
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult TopUpBalance()
+        {
+            return View();
+        }
+
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> TopUpBalance([FromBody] ChangeBalanceBody body)
+        public IActionResult TopUpBalance(TopUpBalance model)
         {
-            User user = await usrMngr.GetUserAsync(User);
+            User user = usrMngr.Users.FirstOrDefault(x=>x.Id == usrMngr.GetUserId(User));
 
             WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Account/ChangeBalance");
             request.Method = "POST"; // для отправки используется метод Post
             // устанавливаем тип содержимого - параметр ContentType
             request.ContentType = "application/json";
 
-           
+
             string accstring = JsonConvert.SerializeObject(new
             {
-                id = body.id,
-                summ = body.summ,
+                id = model.AccNumber,
+                summ = model.Summ,
+            });
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(accstring);
+
+            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+            request.ContentLength = byteArray.Length;
+
+            //записываем данные в поток запроса
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
+            try
+            {
+                WebResponse response = request.GetResponse();
+
+                ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAccounts");
+                ViewBag.Text = "Счет успешно пополнен!";
+                return View("Result");
+            }
+            catch (WebException e)
+            {
+                var encoding = ASCIIEncoding.ASCII;
+                using (var reader = new System.IO.StreamReader(e.Response.GetResponseStream(), encoding))
+                {
+                    string responseText = reader.ReadToEnd();
+                    ViewBag.Text = $"Не удалось пополнить счет. Ошибка: {responseText}";
+                    return View("Result");
+                }
+
+                
+            }
+            
+
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Transfer()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Transfer(Transfer model)
+        {
+            User user = await usrMngr.GetUserAsync(User);
+
+            WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Balance/Transfer");
+            request.Method = "POST"; // для отправки используется метод Post
+            // устанавливаем тип содержимого - параметр ContentType
+            request.ContentType = "application/json";
+
+
+            string accstring = JsonConvert.SerializeObject(new
+            {
+                fromid = model.AccNumberFrom,
+                toid = model.AccNumberTo,
+                summ = model.Summ,
             });
             byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(accstring);
 
@@ -101,9 +168,12 @@ namespace homework_20.Controllers
 
             WebResponse response = await request.GetResponseAsync();
 
-            return View("PartialView", dataManager.Accounts.GetAccounts((int)user.idClient));
+            ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAccounts");
+
+            return View("Index", dataManager.Accounts.GetAccounts((int)user.idClient));
         }
 
+        
     }
 }
 

@@ -21,17 +21,23 @@ namespace homework_20.Models.ViewComponents
         public Task<IViewComponentResult> InvokeAsync()
         {          
             string url = "https://news.yandex.ru/index.rss";
-            XmlReader reader = XmlReader.Create(url);
-            SyndicationFeed feed = SyndicationFeed.Load(reader);
-            reader.Close();
             List<RSSField> rss = new List<RSSField>();
-            int newscount = 5;
-            feed.Items = feed.Items.Take(newscount);
-            foreach (SyndicationItem album in feed.Items)
+            try
             {
-                rss.Add(new RSSField() { tittle = album.Title.Text, url = album.Id });
+                XmlReader reader = XmlReader.Create(url);
+                SyndicationFeed feed = SyndicationFeed.Load(reader);
+                reader.Close();
 
+                int newscount = 5;
+                feed.Items = feed.Items.Take(newscount);
+                foreach (SyndicationItem album in feed.Items)
+                {
+                    rss.Add(new RSSField() { tittle = album.Title.Text, url = album.Id });
+
+                }
             }
+            catch { }
+            
 
             return Task.FromResult((IViewComponentResult)View("Default", rss));
         }

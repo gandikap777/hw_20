@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,8 +50,8 @@ namespace HomeWork_13
         /// </summary>
         virtual public int ID { get { return id; } set => id = value; }
 
-
-        virtual public Person Manager { get; set; }
+        //[Column(TypeName = "ManagerID")]
+        //virtual public int idManager { get; set; }
 
 
         private void OnPropertyChanged(string propertyName)
