@@ -46,7 +46,12 @@ namespace hw_22_web_api.Controllers
         {
             Account acc = dataRepository.GetAccount(id);
 
-            if (acc == null) return NotFound();
+            if (acc == null)           
+            {               
+                var message = string.Format("Account with id = {0} not found", id);
+                return BadRequest(message);
+
+            }
 
             return acc;
         }
@@ -62,6 +67,7 @@ namespace hw_22_web_api.Controllers
         [Route("Deposit/Create")]
         public ActionResult<BasicDeposit> CreateDeposit([FromBody] BasicDeposit dep)
         {
+
             dataRepository.SaveDeposit(dep);
 
             return CreatedAtAction(nameof(GetDeposit), new { id = dep.ID }, dep);
@@ -73,7 +79,12 @@ namespace hw_22_web_api.Controllers
         {
             Deposit dep = dataRepository.GetDeposit(id);
 
-            if (dep == null) return NotFound();
+            if (dep == null)
+            {
+                var message = string.Format("Product with id = {0} not found", id);
+                return BadRequest(message);
+
+            }
 
             return dep;
         }
@@ -82,18 +93,13 @@ namespace hw_22_web_api.Controllers
         [Route("Account/{id}/IncreaseBalance/{summ}")]
         public ActionResult<BasicAccount> IncreaseBalance(int id, double summ)
         {
+            return NotFound();
+
             IAccount acc = dataRepository.GetAccount(id);
 
             if (acc == null)
-            {
-                //var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
-                //{
-                //    Content = new StringContent(string.Format("No product with ID = {0}", id)),
-                //    ReasonPhrase = "Product ID Not Found"
-                //};
-                //throw new HttpResponseException(resp);
-
-                var message = string.Format("Product with id = {0} not found", id);
+            {               
+                var message = string.Format("Account with id = {0} not found", id);
                 return BadRequest(message);
 
             }
@@ -112,12 +118,6 @@ namespace hw_22_web_api.Controllers
 
             if (acc == null)
             {
-                //var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
-                //{
-                //    Content = new StringContent(string.Format("No product with ID = {0}", id)),
-                //    ReasonPhrase = "Product ID Not Found"
-                //};
-                //throw new HttpResponseException(resp);
 
                 var message = string.Format("Account with id = {0} not found", body.id);
                 return BadRequest(message);
@@ -125,6 +125,37 @@ namespace hw_22_web_api.Controllers
             }
 
             if (body.summ > 0) dataRepository.IncreaseBalance(acc, body.summ);
+            else if (body.summ > dataRepository.GetAccountBalance(acc))
+            {
+                var message = string.Format("Account id = {0} not enough funds to write off", body.id);
+                return BadRequest(message);
+            }
+            else dataRepository.IncreaseBalance(acc, body.summ);
+
+
+            return CreatedAtAction(nameof(GetAccount), new { id = acc.ID }, acc);
+        }
+
+
+        [HttpPost]
+        [Route("Account/DecreaseBalance")]
+        public ActionResult<BasicAccount> DecreaseBalance([FromBody] ChangeBalanceBody body)
+        {
+            IAccount acc = dataRepository.GetAccount(body.id);
+
+            if (acc == null)
+            {
+
+                var message = string.Format("Account with id = {0} not found", body.id);
+                return BadRequest(message);
+
+            }
+
+            if (body.summ > dataRepository.GetAccountBalance(acc))
+            {
+                var message = string.Format("Account id = {0} not enough funds to write off", body.id);
+                return BadRequest(message);
+            }
             else dataRepository.DecreaseBalance(acc, body.summ);
 
 
@@ -135,6 +166,9 @@ namespace hw_22_web_api.Controllers
         [Route("Transfer/{fromid}/{toid}/{summ}")]
         public ActionResult<BasicAccount> Transfer(int fromid, int toid, double summ)
         {
+
+            return NotFound();
+
             IAccount accfrom = dataRepository.GetAccount(fromid);
             IAccount accto = dataRepository.GetAccount(toid);
 
@@ -154,7 +188,28 @@ namespace hw_22_web_api.Controllers
             IAccount accto = dataRepository.GetAccount(body.toid);
 
             if (accfrom == null)
-                return NotFound();
+            {
+
+                var message = string.Format("Account with id = {0}  not found", body.fromid);
+                return BadRequest(message);
+
+            }
+
+            if (accfrom == null)
+            {
+
+                var message = string.Format("Account with id = {0}  not found", body.toid);
+                return BadRequest(message);
+
+            }
+
+            if (dataRepository.GetAccountBalance(accfrom)  < body.summ)
+            {
+
+                var message = string.Format("Account with id = {0}  not enough funds to write off", body.fromid);
+                return BadRequest(message);
+
+            }
 
             dataRepository.Transfer(accfrom, accto, body.summ);
 

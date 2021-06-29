@@ -96,5 +96,10 @@ namespace hw_22_web_api.Models.Repositories.EntityFramework
             accTo.IncreaseBalance(summ);
 
         }
+
+        double IApiRepository.GetAccountBalance(IAccount acc)
+        {
+            return context.Accounts.Where(x => x.ID == acc.ID).FirstOrDefault().Balance;
+        }
     }
 }

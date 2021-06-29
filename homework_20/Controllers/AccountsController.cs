@@ -39,16 +39,15 @@ namespace homework_20.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult> OpenAccount()
+        public ActionResult OpenAccount()
         {
+            User user = usrMngr.Users.FirstOrDefault(x => x.Id == usrMngr.GetUserId(User));
+
             WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Account/Create");
             request.Method = "POST"; // для отправки используется метод Post
             // устанавливаем тип содержимого - параметр ContentType
             request.ContentType = "application/json";
-
-
-            User user = await usrMngr.GetUserAsync(User);
-
+            
             string accstring = JsonConvert.SerializeObject(new
             {
                 IdClient = user.idClient,
@@ -65,10 +64,26 @@ namespace homework_20.Controllers
                 dataStream.Write(byteArray, 0, byteArray.Length);
             }
 
-            WebResponse response = await request.GetResponseAsync();
+            try
+            {
+                WebResponse response = request.GetResponse();
 
+                ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAccounts");
+                ViewBag.Text = "Счет успешно откыт!";
+                return View("Result");
+            }
+            catch (WebException e)
+            {
+                var encoding = ASCIIEncoding.ASCII;
+                using (var reader = new System.IO.StreamReader(e.Response.GetResponseStream(), encoding))
+                {
+                    string responseText = reader.ReadToEnd();
+                    ViewBag.Text = $"Не удалось открыть счет. Ошибка: {responseText}";
+                    return View("Result");
+                }
 
-            return  View("PartialView", dataManager.Accounts.GetAccounts((int)user.idClient));
+            }
+            
         }
 
 
@@ -122,12 +137,9 @@ namespace homework_20.Controllers
                     string responseText = reader.ReadToEnd();
                     ViewBag.Text = $"Не удалось пополнить счет. Ошибка: {responseText}";
                     return View("Result");
-                }
-
-                
+                }                
             }
             
-
         }
 
         [HttpGet]
@@ -139,9 +151,9 @@ namespace homework_20.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Transfer(Transfer model)
+        public IActionResult Transfer(Transfer model)
         {
-            User user = await usrMngr.GetUserAsync(User);
+            User user = usrMngr.Users.FirstOrDefault(x => x.Id == usrMngr.GetUserId(User));
 
             WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Balance/Transfer");
             request.Method = "POST"; // для отправки используется метод Post
@@ -166,11 +178,26 @@ namespace homework_20.Controllers
                 dataStream.Write(byteArray, 0, byteArray.Length);
             }
 
-            WebResponse response = await request.GetResponseAsync();
+            try
+            {
+                WebResponse response = request.GetResponse();
 
-            ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAccounts");
+                ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAccounts");
+                ViewBag.Text = "Успешно выполнен перевод!";
+                return View("Result");
+            }
+            catch (WebException e)
+            {
+                var encoding = ASCIIEncoding.ASCII;
+                using (var reader = new System.IO.StreamReader(e.Response.GetResponseStream(), encoding))
+                {
+                    string responseText = reader.ReadToEnd();
+                    ViewBag.Text = $"Не удалось выполнить перевод. Ошибка: {responseText}";
+                    return View("Result");
+                }
 
-            return View("Index", dataManager.Accounts.GetAccounts((int)user.idClient));
+
+            }
         }
 
         

@@ -36,6 +36,42 @@ namespace homework_20.Service
         }
     }
 
+    public static class DepositRate
+    {
+        public static Dictionary<int, string> GetDepositRate(IClient client)
+        {
+            Dictionary<int, string> rates = new Dictionary<int, string>();
+
+            rates.Add(7, "7%");
+
+            if (client.GoodCreditHistory)
+                rates.Add(8, "8%");
+
+            return rates;
+        }
+    }
+
+    public static class DepositPeriod
+    {
+        public static Dictionary<int, string> GetDepositPeriod(IClient client)
+        {
+            Dictionary<int, string> periods = new Dictionary<int, string>();
+
+            periods.Add(3, "3 месяца");
+            periods.Add(6, "6 месяцев");
+            periods.Add(9, "9 месяцев");
+            periods.Add(12, "1 год");
+            periods.Add(18, "18 месяцев");
+            periods.Add(24, "2 года");
+
+            if (client.GoodCreditHistory)
+                periods.Add(36, "3 года");
+
+            return periods;
+        }
+    }
+
+
     public class BalanceTransferBody
     {
         public int fromid { get; set; }

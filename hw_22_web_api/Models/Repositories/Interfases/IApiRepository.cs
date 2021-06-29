@@ -31,5 +31,7 @@ namespace hw_22_web_api.Models.Repositories.Interfases
 
         void Transfer(IAccount accFrom, IAccount accTo, double summ);
 
+        double GetAccountBalance(IAccount acc);
+
     }
 }
