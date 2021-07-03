@@ -3,6 +3,7 @@ using homework_20.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,17 @@ namespace homework_20.Controllers
     {
         private readonly DataManager dataManager;
         private readonly UserManager<User> usrMngr;
+        private readonly IConfiguration configuration;
 
-        public AccountsController(DataManager dataManager, UserManager<User> usrMngr)
+        public AccountsController(DataManager dataManager, UserManager<User> usrMngr, IConfiguration configuration)
         {
             this.dataManager = dataManager;
             this.usrMngr = usrMngr;
+            this.configuration = configuration;
         }
 
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAccounts");
@@ -43,7 +48,7 @@ namespace homework_20.Controllers
         {
             User user = usrMngr.Users.FirstOrDefault(x => x.Id == usrMngr.GetUserId(User));
 
-            WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Account/Create");
+            WebRequest request = WebRequest.Create($"{configuration["Project: WebApiUrl"]}/api/Bank/Account/Create");
             request.Method = "POST"; // для отправки используется метод Post
             // устанавливаем тип содержимого - параметр ContentType
             request.ContentType = "application/json";
@@ -100,7 +105,7 @@ namespace homework_20.Controllers
         {
             User user = usrMngr.Users.FirstOrDefault(x=>x.Id == usrMngr.GetUserId(User));
 
-            WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Account/ChangeBalance");
+            WebRequest request = WebRequest.Create($"{configuration["Project: WebApiUrl"]}/api/Bank/Account/ChangeBalance");
             request.Method = "POST"; // для отправки используется метод Post
             // устанавливаем тип содержимого - параметр ContentType
             request.ContentType = "application/json";
@@ -155,7 +160,7 @@ namespace homework_20.Controllers
         {
             User user = usrMngr.Users.FirstOrDefault(x => x.Id == usrMngr.GetUserId(User));
 
-            WebRequest request = WebRequest.Create("https://localhost:44391/api/Bank/Balance/Transfer");
+            WebRequest request = WebRequest.Create($"{configuration["Project: WebApiUrl"]}/api/Bank/Balance/Transfer");
             request.Method = "POST"; // для отправки используется метод Post
             // устанавливаем тип содержимого - параметр ContentType
             request.ContentType = "application/json";

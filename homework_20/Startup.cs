@@ -36,6 +36,7 @@ namespace homework_20
             services.AddTransient<IEFClient, EFClient>();
             services.AddTransient<IEFDeposit, EFDeposit>();
             services.AddTransient<DataManager>();
+            services.AddSingleton<IConfiguration>(Configuration);
 
 
 

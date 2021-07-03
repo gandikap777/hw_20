@@ -14,7 +14,7 @@ namespace HomeWork_13.Models
         DateTime Birthday { get; set; }
         DateTime RegistrationDate { get; set; }
         int IdDepartment { get; set; }
-        bool GoodCreditHistory { get; set; }
+        bool GoodCreditHistory { get; }
 
     }
 }

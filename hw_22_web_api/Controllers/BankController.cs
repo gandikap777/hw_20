@@ -24,6 +24,10 @@ namespace hw_22_web_api.Controllers
             this.dataRepository = dataRepository;
         }
 
+        /// <summary>
+        /// Получение списка департаментов
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetDepartments")]
         public IEnumerable<StructuralUnit> GetDepartments()
@@ -31,6 +35,11 @@ namespace hw_22_web_api.Controllers
             return dataRepository.GetDepartments();
         }
 
+        /// <summary>
+        /// Создание счета клиента
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Account/Create")]
         public ActionResult<BasicAccount> CreateAccount(BasicAccount acc)
@@ -40,6 +49,11 @@ namespace hw_22_web_api.Controllers
             return CreatedAtAction(nameof(GetAccount), new { id = acc.ID }, acc);
         }
 
+        /// <summary>
+        /// Получение счета по номеру
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Account/{id}")]
         public ActionResult<Account> GetAccount(int id)
@@ -56,6 +70,11 @@ namespace hw_22_web_api.Controllers
             return acc;
         }
 
+        /// <summary>
+        /// Получение клиентов департамента
+        /// </summary>
+        /// <param name="idDepartment"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{idDepartment}/Clients")]
         public IEnumerable<IClient> GetDepartmentClients(int idDepartment)
@@ -63,6 +82,11 @@ namespace hw_22_web_api.Controllers
             return dataRepository.GetDepartmentClient(idDepartment);
         }
 
+        /// <summary>
+        /// Добавление депозита
+        /// </summary>
+        /// <param name="dep"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Deposit/Create")]
         public ActionResult<BasicDeposit> CreateDeposit([FromBody] BasicDeposit dep)
@@ -73,6 +97,11 @@ namespace hw_22_web_api.Controllers
             return CreatedAtAction(nameof(GetDeposit), new { id = dep.ID }, dep);
         }
 
+        /// <summary>
+        /// Получение депозита по номеру
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Deposit/{id}")]
         public ActionResult<Deposit> GetDeposit(int id)
@@ -89,6 +118,12 @@ namespace hw_22_web_api.Controllers
             return dep;
         }
 
+        /// <summary>
+        /// Пополнение баланса счета
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="summ"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Account/{id}/IncreaseBalance/{summ}")]
         public ActionResult<BasicAccount> IncreaseBalance(int id, double summ)
@@ -110,6 +145,11 @@ namespace hw_22_web_api.Controllers
             return CreatedAtAction(nameof(GetAccount), new { id = acc.ID }, acc);
         }
 
+        /// <summary>
+        /// Измение баланса счета
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Account/ChangeBalance")]
         public ActionResult<BasicAccount> ChangeBalance([FromBody] ChangeBalanceBody body)
@@ -137,6 +177,11 @@ namespace hw_22_web_api.Controllers
         }
 
 
+        /// <summary>
+        /// Уменьшение баланса счета
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Account/DecreaseBalance")]
         public ActionResult<BasicAccount> DecreaseBalance([FromBody] ChangeBalanceBody body)
@@ -162,6 +207,13 @@ namespace hw_22_web_api.Controllers
             return CreatedAtAction(nameof(GetAccount), new { id = acc.ID }, acc);
         }
 
+        /// <summary>
+        /// Перевод между счетами
+        /// </summary>
+        /// <param name="fromid"></param>
+        /// <param name="toid"></param>
+        /// <param name="summ"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Transfer/{fromid}/{toid}/{summ}")]
         public ActionResult<BasicAccount> Transfer(int fromid, int toid, double summ)
@@ -180,6 +232,11 @@ namespace hw_22_web_api.Controllers
             return CreatedAtAction(nameof(GetAccount), new { id = accfrom.ID }, accfrom);
         }
 
+        /// <summary>
+        /// Перевод между счетами
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Balance/Transfer")]
         public ActionResult<BasicAccount> Transfer([FromBody] BalanceTransferBody body)

@@ -108,6 +108,7 @@
     <Compile Include="Models\Deposit\IDeposit.cs" />
     <Compile Include="Models\IAddClientModel.cs" />
     <Compile Include="Models\IBankModel.cs" />
+    <Compile Include="Models\OtherModel\WebApiConfig.cs" />
     <Compile Include="Presenters\AddClientPresenter.cs" />
     <Compile Include="Views\IAddClientView.cs" />
     <Compile Include="Views\IBankView.cs" />

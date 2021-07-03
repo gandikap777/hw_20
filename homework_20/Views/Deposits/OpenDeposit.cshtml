@@ -9,18 +9,47 @@
         <label for="name" class="form__label">Счет списания</label>
     </div>
 
+    @*<div class="form__group field">
+            <input asp-for="Period" type="number" min="0" class="form__field"
+            placeholder="Период" name="Period" id="Period" required />
+            <label for="name" class="form__label">Период</label>
+        </div>*@
+
     <div class="form__group field">
-        <input asp-for="Period" type="number" min="0" class="form__field" placeholder="Период" name="Period" id="Period" required />
+        @*<input asp-for="Period" type="number" min="0" class="form__field" placeholder="Период селект" name="PeriodSelect" id="Period" required />*@
+        <select asp-for="Period" class="form__field" id="Period" required>
+            @foreach (var item in ViewBag.Periods)
+            {
+                <option value="@item.Key">@item.Value</option>
+            }
+        </select>
         <label for="name" class="form__label">Период</label>
     </div>
 
+    @*<div class="form__group field">
+            <input asp-for="Capitalization" type="checkbox" class="form__field" placeholder="Капитализация" name="Capitalization" id="Capitalization" required />
+            <label for="name" class="form__label">Капитализация</label>
+    </div>*@
     <div class="form__group field">
-        <input asp-for="Capitalization" type="checkbox" class="form__field" placeholder="Капитализация" name="Capitalization" id="Capitalization" required />
-        <label for="name" class="form__label">Капитализация</label>
+        <input asp-for="Capitalization" name="Capitalization" id="Capitalization" type="checkbox" class="switch">
+        <label for="Capitalization">Капитализация</label>
     </div>
+    @*<label class="checkbox-other">
+        <input asp-for="Capitalization" name="Capitalization" id="Capitalization" type="checkbox"> Капитализация
+    </label>*@
+
+    @*<div class="form__group field">
+            <input asp-for="Rate" type="number" min="0" class="form__field" placeholder="Ставка" name="Rate" id="Rate" required />
+            <label for="name" class="form__label">Ставка</label>
+        </div>*@
 
     <div class="form__group field">
-        <input asp-for="Rate" type="number" min="0" class="form__field" placeholder="Ставка" name="Rate" id="Rate" required />
+        <select asp-for="Rate" class="form__field" id="Rate" required>
+            @foreach (var item in ViewBag.Rates)
+            {
+                <option value="@item.Key">@item.Value</option>
+            }
+        </select>
         <label for="name" class="form__label">Ставка</label>
     </div>
 

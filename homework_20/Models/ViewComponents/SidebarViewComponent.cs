@@ -6,21 +6,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using System.ServiceModel.Syndication;
+using Microsoft.Extensions.Configuration;
 
 namespace homework_20.Models.ViewComponents
 {
     public class SidebarViewComponent : ViewComponent
     {
         private readonly DataManager dataManager;
+        private readonly IConfiguration configuration;
 
-        public SidebarViewComponent(DataManager dataManager)
+        public SidebarViewComponent(DataManager dataManager, IConfiguration configuration)
         {
             this.dataManager = dataManager;
+            this.configuration = configuration;
         }
 
         public Task<IViewComponentResult> InvokeAsync()
-        {          
-            string url = "https://news.yandex.ru/index.rss";
+        {
+            //string url = "https://news.yandex.ru/index.rss";
+            string url = configuration["Project:RSSUrl"];
             List<RSSField> rss = new List<RSSField>();
             try
             {

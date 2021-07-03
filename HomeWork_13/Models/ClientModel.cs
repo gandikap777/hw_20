@@ -1,7 +1,11 @@
-﻿using System;
+﻿using HomeWork_13.Models.OtherModel;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,22 +64,50 @@ namespace HomeWork_13.Models
         /// <returns></returns>
         bool IClientModel.CreateAccount()
         {
-            Context_18 db = new Context_18();
+            //Context_18 db = new Context_18();
             if (!Int32.TryParse(this.SelectedItemIdText, out SelectedItemId)) { throw new FormatException("Неверно указан ИД клиента"); }
 
             if (!Double.TryParse(this.SummText, out Summ)) { throw new FormatException("Неверно указана сумма"); }
 
-            TypeAccount = "Basic";
+            WebRequest request = WebRequest.Create($"{WebApiConfig.Url}/api/Bank/Account/Create");
+            request.Method = "POST"; // для отправки используется метод Post
+            // устанавливаем тип содержимого - параметр ContentType
+            request.ContentType = "application/json";
 
-            IAccount acc = AccountFactory.GetAccount(TypeAccount, SelectedItemId, Summ);
+            string accstring = JsonConvert.SerializeObject(new
+            {
+                IdClient = SelectedItemId,
+                Balance = 0,
+            });
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(accstring);
 
-            db.Accounts.Add((Account)acc);
+            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+            request.ContentLength = byteArray.Length;
 
-            db.SaveChanges();
+            //записываем данные в поток запроса
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
 
-            db.Dispose();
+            try
+            {
+                WebResponse response = request.GetResponse();
 
-            return true;
+                return true;
+            }
+            catch (WebException e)
+            {
+                var encoding = ASCIIEncoding.ASCII;
+                using (var reader = new System.IO.StreamReader(e.Response.GetResponseStream(), encoding))
+                {
+                    string responseText = reader.ReadToEnd();
+                    throw new FormatException($"Не удалось открыть счет. Ошибка: {responseText}");
+                }
+
+            }
+
+
         }
 
         /// <summary>
@@ -85,7 +117,6 @@ namespace HomeWork_13.Models
         bool IClientModel.CreateDeposit()
         {
             Context_18 db = new Context_18();
-
 
             if (!Double.TryParse(this.SummText, out Summ)) throw new CustomException($"Не корректно введена сумма!", 10_212);
 
@@ -98,11 +129,11 @@ namespace HomeWork_13.Models
             if (!Int32.TryParse(this.SelectedAccountIdText, out SelectedAccountId)) { throw new FormatException("Неверно указан ИД аккаунта"); }
 
             Account SelectedAccount = db.Accounts.Where(x => x.ID == SelectedAccountId).FirstOrDefault();
-            SelectedAccount.WriteMessage += db.WriteMessage;
+            //SelectedAccount.WriteMessage += db.WriteMessage;
 
             if (SelectedAccount.Balance < Summ) throw new CustomException($"Недостаточно баланса на счете", 10_202);
 
-            SelectedAccount.DecreaseBalance(Summ);
+            //SelectedAccount.DecreaseBalance(Summ);
             
             Int32.TryParse(this.PeriodText, out Period);
 
@@ -110,21 +141,73 @@ namespace HomeWork_13.Models
 
             if (!DateTime.TryParse(this.DateOpenText, out DateOpen)) { throw new FormatException("Неверно указана дата открытия вклада"); }
 
-            TypeDeposit = "Basic";
 
-            IDeposit dep = DepositFactory.GetDeposit(TypeDeposit, DateOpen, Period, Summ, Capitalization, Rate, SelectedItemId);
+            WebRequest request = WebRequest.Create($"{WebApiConfig.Url}/api/Bank/Deposit/Create");
+            request.Method = "POST"; // для отправки используется метод Post
+            // устанавливаем тип содержимого - параметр ContentType
+            request.ContentType = "application/json";
 
-            dep.WriteMessage += db.WriteMessage;
+            string accstring = JsonConvert.SerializeObject(new
+            {
+                DateOpen = DateTime.Now,
+                IdClient = SelectedItemId,
+                Period = Period,
+                Capitalization = Capitalization,
+                Rate = Rate,
+                Summ = Summ,
+            });
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(accstring);
 
-            dep.OpenDeposit();
+            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+            request.ContentLength = byteArray.Length;
 
-            db.Deposits.Add((Deposit)dep);
+            //записываем данные в поток запроса
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
 
-            db.SaveChanges();
+            try
+            {
+                WebResponse response = request.GetResponse();
 
-            db.Dispose();
+                request = WebRequest.Create($"{WebApiConfig.Url}/api/Bank/Account/DecreaseBalance");
+                request.Method = "POST"; // для отправки используется метод Post
+                                         // устанавливаем тип содержимого - параметр ContentType
+                request.ContentType = "application/json";
 
-            return true;
+
+                accstring = JsonConvert.SerializeObject(new
+                {
+                    id = SelectedAccountId,
+                    summ = Summ,
+                });
+                byteArray = System.Text.Encoding.UTF8.GetBytes(accstring);
+
+                // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+                request.ContentLength = byteArray.Length;
+
+                //записываем данные в поток запроса
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                }
+
+                request.GetResponse();
+
+                return true;
+            }
+            catch (WebException e)
+            {
+                var encoding = ASCIIEncoding.ASCII;
+                using (var reader = new StreamReader(e.Response.GetResponseStream(), encoding))
+                {
+                    string responseText = reader.ReadToEnd();
+                    throw new CustomException($"Не удалось открыть депозит. Ошибка: {responseText}", 10_202);
+                }
+
+            }
+
         }
 
         /// <summary>
@@ -144,7 +227,7 @@ namespace HomeWork_13.Models
         /// <returns></returns>
         bool IClientModel.Transfer()
         {
-            Context_18 db = new Context_18();
+            //Context_18 db = new Context_18();
 
             if (String.IsNullOrEmpty(SelectedAccountIdText)) throw new CustomException($"Выберите счет с которого выполнить перевод!", 10_100);            
 
@@ -157,28 +240,47 @@ namespace HomeWork_13.Models
             if (SelectedAccountId == AccountToId) throw new CustomException($"Запрещено переводить на этот же счет!", 10_102);
             
 
-            if (!db.Accounts.Any(x => x.ID == AccountToId)) throw new CustomException($"Не найден счет получатель {AccountToId}", 10_001);
+            WebRequest request = WebRequest.Create($"{WebApiConfig.Url}/api/Bank/Balance/Transfer");
+            request.Method = "POST"; // для отправки используется метод Post
+            // устанавливаем тип содержимого - параметр ContentType
+            request.ContentType = "application/json";
 
-            Account AccountTo = db.Accounts.Where(x => x.ID == AccountToId).FirstOrDefault();
-            AccountTo.WriteMessage += db.WriteMessage;
+
+            string accstring = JsonConvert.SerializeObject(new
+            {
+                fromid = SelectedAccountId,
+                toid = AccountToId,
+                summ = Summ,
+            });
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(accstring);
+
+            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+            request.ContentLength = byteArray.Length;
+
+            //записываем данные в поток запроса
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
+
+            try
+            {
+                WebResponse response = request.GetResponse();
+
+                return true;
+            }
+            catch (WebException e)
+            {
+                var encoding = ASCIIEncoding.ASCII;
+                using (var reader = new System.IO.StreamReader(e.Response.GetResponseStream(), encoding))
+                {
+                    string responseText = reader.ReadToEnd();
+                    throw new CustomException($"Не удалось выполнить перевод. Ошибка: {responseText}", 10_108);
+                }
 
 
-            Account AccountFrom = db.Accounts.Where(x => x.ID == SelectedAccountId).FirstOrDefault();
-            AccountFrom.WriteMessage += db.WriteMessage;
+            }
 
-            if (AccountFrom.Balance < Summ) throw new CustomException($"Не достаточно суммы на {SelectedAccountId} для перевода {Summ}", 10_002);
-
-            AccountFrom.DecreaseBalance(Summ);
-
-            AccountTo.IncreaseBalance(Summ);
-
-            TransactionLog.WriteTransactionLog($"Перевод денежных средств со счета {SelectedAccountId} на счета {AccountToId}. Сумма {Summ}", "default.log");
-
-            db.SaveChanges();
-
-            db.Dispose();
-
-            return true;
         }
 
         /// <summary>
@@ -187,7 +289,7 @@ namespace HomeWork_13.Models
         /// <returns></returns>
         bool IClientModel.TopUpBalance()
         {
-            Context_18 db = new Context_18();
+            //Context_18 db = new Context_18();
 
             if (String.IsNullOrEmpty(SelectedAccountIdText)) throw new CustomException($"Не выбран получатель!", 10_205);
 
@@ -197,17 +299,55 @@ namespace HomeWork_13.Models
 
             if (Summ < 0) throw new CustomException($"Сумма должна быть больше 0!", 10_202);
 
-            Account acc = db.Accounts.Where(x => x.ID == SelectedAccountId).FirstOrDefault();
+            //Account acc = db.Accounts.Where(x => x.ID == SelectedAccountId).FirstOrDefault();
 
-            acc.WriteMessage += db.WriteMessage;
+            //acc.WriteMessage += db.WriteMessage;
 
-            acc.IncreaseBalance(Summ);
+            //acc.IncreaseBalance(Summ);
 
-            db.SaveChanges();
+            //db.SaveChanges();
 
-            db.Dispose();
+            //db.Dispose();
 
-            return true;
+            //return true;
+
+            WebRequest request = WebRequest.Create($"{WebApiConfig.Url}/api/Bank/Account/ChangeBalance");
+            request.Method = "POST"; // для отправки используется метод Post
+            // устанавливаем тип содержимого - параметр ContentType
+            request.ContentType = "application/json";
+
+
+            string accstring = JsonConvert.SerializeObject(new
+            {
+                id = SelectedAccountId,
+                summ = Summ,
+            });
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(accstring);
+
+            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+            request.ContentLength = byteArray.Length;
+
+            //записываем данные в поток запроса
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
+            try
+            {
+                WebResponse response = request.GetResponse();
+
+                return true;
+            }
+            catch (WebException e)
+            {
+                var encoding = ASCIIEncoding.ASCII;
+                using (var reader = new System.IO.StreamReader(e.Response.GetResponseStream(), encoding))
+                {
+                    string responseText = reader.ReadToEnd();
+
+                    throw new CustomException($"Не удалось пополнить счет. Ошибка: {responseText}", 10_205);
+                }
+            }
 
         }
 
